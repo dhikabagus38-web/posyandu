@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Sistem Informasi Posyandu Melati</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /*
+          Sistem Informasi Posyandu — 1 file HTML
+          Struktur: CSS (di <style>) + HTML (di <body>) + JavaScript (di <script>)
+          Data balita disimpan di memori halaman (variabel JS). Kalau halaman
+          di-refresh, data kembali ke contoh awal. Cukup untuk demo tugas.
+        */
+
+        :root {
+            --hijau-tua: #1f4d3a;
+            --hijau: #2f7a57;
+            --hijau-muda: #eaf3ed;
+            --krem: #f7f4ec;
+            --oranye: #e08a3c;
+            --teks: #24312b;
+            --teks-lembut: #5c6b63;
+            --garis: #d9e2db;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            color: var(--teks);
+            background: var(--krem);
+            line-height: 1.6;
+        }
+
+        /* ---------- HEADER ---------- */
+        header {
+            background: var(--hijau-tua);
+            color: #fff;
+            padding: 28px 20px;
+        }
+        .header-isi {
+            max-width: 960px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .logo {
+            width: 52px; height: 52px;
+            background: var(--oranye);
+            border-radius: 14px;
+            display: grid; place-items: center;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+        header h1 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 1.6rem;
+            line-height: 1.15;
+        }
+        header p { color: #bcd6c7; font-size: .95rem; }
+
+        /* ---------- LAYOUT ---------- */
+        main {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 28px 20px 60px;
+        }
+        section { margin-bottom: 40px; }
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: 1.35rem;
+            color: var(--hijau-tua);
+            margin-bottom: 14px;
+        }
+
+        /* ---------- KARTU RINGKASAN ---------- */
+        .ringkasan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 14px;
+        }
+        .kartu-angka {
+            background: #fff;
+            border: 1px solid var(--garis);
+            border-radius: 14px;
+            padding: 18px;
+        }
+        .kartu-angka .angka {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            color: var(--hijau);
+            line-height: 1;
+        }
+        .kartu-angka .label { color: var(--teks-lembut); font-size: .9rem; margin-top: 6px; }
+
+        /* ---------- FORM ---------- */
+        .form-kotak {
+            background: #fff;
+            border: 1px solid var(--garis);
+            border-radius: 16px;
+            padding: 22px;
+        }
+        .baris-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        label { display: block; font-size: .85rem; font-weight: 500; margin-bottom: 6px; color: var(--teks-lembut); }
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--garis);
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: .95rem;
+            background: var(--krem);
+            color: var(--teks);
+        }
+        input:focus, select:focus { outline: 2px solid var(--hijau); outline-offset: 1px; }
+
+        .tombol {
+            background: var(--hijau);
+            color: #fff;
+            border: none;
+            padding: 12px 26px;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: .95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .tombol:hover { background: var(--hijau-tua); }
+
+        /* ---------- TABEL ---------- */
+        .tabel-bungkus { overflow-x: auto; border: 1px solid var(--garis); border-radius: 16px; background: #fff; }
+        table { width: 100%; border-collapse: collapse; min-width: 620px; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--garis); font-size: .92rem; }
+        th { background: var(--hijau-muda); color: var(--hijau-tua); font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
+
+        .status { padding: 3px 10px; border-radius: 20px; font-size: .8rem; font-weight: 600; display: inline-block; }
+        .status.baik { background: #e2f0e6; color: #1f6b45; }
+        .status.kurang { background: #fdeede; color: #b56b1a; }
+        .status.lebih { background: #fde8e8; color: #b53a3a; }
+
+        .hapus {
+            background: none; border: 1px solid var(--garis);
+            color: #b53a3a; border-radius: 7px; padding: 5px 12px;
+            cursor: pointer; font-family: inherit; font-size: .85rem;
+        }
+        .hapus:hover { background: #fde8e8; }
+
+        .kosong { text-align: center; color: var(--teks-lembut); padding: 30px; }
+
+        /* ---------- JADWAL ---------- */
+        .jadwal { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+        .jadwal-item {
+            background: #fff; border: 1px solid var(--garis);
+            border-left: 4px solid var(--oranye);
+            border-radius: 12px; padding: 16px;
+        }
+        .jadwal-item .tgl { color: var(--oranye); font-weight: 600; font-size: .85rem; }
+        .jadwal-item h3 { font-size: 1rem; margin: 4px 0; }
+        .jadwal-item p { color: var(--teks-lembut); font-size: .9rem; }
+
+        footer {
+            background: var(--hijau-tua);
+            color: #bcd6c7;
+            text-align: center;
+            padding: 22px;
+            font-size: .9rem;
+        }
+
+        @media (max-width: 480px) {
+            header h1 { font-size: 1.35rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-isi">
+            <div class="logo">🌱</div>
+            <div>
+                <h1>Posyandu Melati</h1>
+                <p>Sistem Informasi Kesehatan Ibu &amp; Anak</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Ringkasan angka -->
+        <section>
+            <h2>Ringkasan</h2>
+            <div class="ringkasan">
+                <div class="kartu-angka">
+                    <div class="angka" id="total-balita">0</div>
+                    <div class="label">Total balita terdaftar</div>
+                </div>
+                <div class="kartu-angka">
+                    <div class="angka" id="gizi-baik">0</div>
+                    <div class="label">Gizi baik</div>
+                </div>
+                <div class="kartu-angka">
+                    <div class="angka" id="perlu-perhatian">0</div>
+                    <div class="label">Perlu perhatian</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form input data balita -->
+        <section>
+            <h2>Tambah Data Balita</h2>
+            <div class="form-kotak">
+                <div class="baris-form">
+                    <div>
+                        <label for="nama">Nama balita</label>
+                        <input type="text" id="nama" placeholder="Nama lengkap">
+                    </div>
+                    <div>
+                        <label for="umur">Umur (bulan)</label>
+                        <input type="number" id="umur" placeholder="0" min="0" max="60">
+                    </div>
+                </div>
+                <div class="baris-form">
+                    <div>
+                        <label for="berat">Berat badan (kg)</label>
+                        <input type="number" id="berat" placeholder="0.0" step="0.1" min="0">
+                    </div>
+                    <div>
+                        <label for="tinggi">Tinggi badan (cm)</label>
+                        <input type="number" id="tinggi" placeholder="0" min="0">
+                    </div>
+                    <div>
+                        <label for="jk">Jenis kelamin</label>
+                        <select id="jk">
+                            <option value="L">Laki-laki</option>
+                            <option value="P">Perempuan</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="tombol" onclick="tambahBalita()">Simpan data</button>
+            </div>
+        </section>
+
+        <!-- Tabel daftar balita -->
+        <section>
+            <h2>Daftar Balita</h2>
+            <div class="tabel-bungkus">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>JK</th>
+                            <th>Umur</th>
+                            <th>Berat</th>
+                            <th>Tinggi</th>
+                            <th>Status gizi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="isi-tabel"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Jadwal kegiatan -->
+        <section>
+            <h2>Jadwal Kegiatan</h2>
+            <div class="jadwal">
+                <div class="jadwal-item">
+                    <div class="tgl">Setiap tanggal 5</div>
+                    <h3>Penimbangan Rutin</h3>
+                    <p>Penimbangan berat &amp; ukur tinggi balita.</p>
+                </div>
+                <div class="jadwal-item">
+                    <div class="tgl">Setiap tanggal 12</div>
+                    <h3>Imunisasi</h3>
+                    <p>Pemberian imunisasi dasar sesuai usia.</p>
+                </div>
+                <div class="jadwal-item">
+                    <div class="tgl">Setiap tanggal 20</div>
+                    <h3>Penyuluhan Gizi</h3>
+                    <p>Edukasi gizi seimbang untuk ibu.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Posyandu Melati — Sistem Informasi Kesehatan Ibu &amp; Anak</p>
+    </footer>
+
+    <script>
+        /*
+          DATA & LOGIKA
+          - "dataBalita" adalah array (daftar) berisi objek data tiap balita.
+          - Kita mulai dengan 2 contoh data biar tabel tidak kosong.
+        */
+        let dataBalita = [
+            { nama: "Aisyah", jk: "P", umur: 24, berat: 11.5, tinggi: 85 },
+            { nama: "Bagas",  jk: "L", umur: 36, berat: 13.0, tinggi: 95 }
+        ];
+
+        /*
+          hitungStatusGizi: menentukan status gizi sederhana berdasarkan
+          BMI (Indeks Massa Tubuh) = berat / (tinggi_meter^2).
+          Ini versi sederhana untuk demo — bukan standar medis resmi.
+        */
+        function hitungStatusGizi(berat, tinggi) {
+            const tinggiMeter = tinggi / 100;
+            if (tinggiMeter <= 0) return { teks: "-", kelas: "" };
+            const bmi = berat / (tinggiMeter * tinggiMeter);
+            if (bmi < 14)  return { teks: "Gizi kurang", kelas: "kurang" };
+            if (bmi > 18)  return { teks: "Gizi lebih",  kelas: "lebih" };
+            return { teks: "Gizi baik", kelas: "baik" };
+        }
+
+        /* tampilkan: menggambar ulang tabel + ringkasan angka dari dataBalita */
+        function tampilkan() {
+            const tbody = document.getElementById("isi-tabel");
+            tbody.innerHTML = "";
+
+            if (dataBalita.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="kosong">Belum ada data. Tambahkan data balita di atas.</td></tr>';
+            }
+
+            let jumlahBaik = 0;
+            let jumlahPerhatian = 0;
+
+            dataBalita.forEach(function (b, index) {
+                const status = hitungStatusGizi(b.berat, b.tinggi);
+                if (status.kelas === "baik") jumlahBaik++;
+                else if (status.kelas === "kurang" || status.kelas === "lebih") jumlahPerhatian++;
+
+                const baris = document.createElement("tr");
+                baris.innerHTML =
+                    "<td>" + b.nama + "</td>" +
+                    "<td>" + (b.jk === "L" ? "Laki-laki" : "Perempuan") + "</td>" +
+                    "<td>" + b.umur + " bln</td>" +
+                    "<td>" + b.berat + " kg</td>" +
+                    "<td>" + b.tinggi + " cm</td>" +
+                    '<td><span class="status ' + status.kelas + '">' + status.teks + "</span></td>" +
+                    '<td><button class="hapus" onclick="hapusBalita(' + index + ')">Hapus</button></td>';
+                tbody.appendChild(baris);
+            });
+
+            document.getElementById("total-balita").textContent = dataBalita.length;
+            document.getElementById("gizi-baik").textContent = jumlahBaik;
+            document.getElementById("perlu-perhatian").textContent = jumlahPerhatian;
+        }
+
+        /* tambahBalita: baca isi form, validasi, masukkan ke dataBalita */
+        function tambahBalita() {
+            const nama = document.getElementById("nama").value.trim();
+            const umur = parseInt(document.getElementById("umur").value);
+            const berat = parseFloat(document.getElementById("berat").value);
+            const tinggi = parseInt(document.getElementById("tinggi").value);
+            const jk = document.getElementById("jk").value;
+
+            if (nama === "" || isNaN(umur) || isNaN(berat) || isNaN(tinggi)) {
+                alert("Mohon lengkapi semua data dengan benar.");
+                return;
+            }
+
+            dataBalita.push({ nama: nama, jk: jk, umur: umur, berat: berat, tinggi: tinggi });
+
+            // kosongkan form setelah simpan
+            document.getElementById("nama").value = "";
+            document.getElementById("umur").value = "";
+            document.getElementById("berat").value = "";
+            document.getElementById("tinggi").value = "";
+
+            tampilkan();
+        }
+
+        /* hapusBalita: menghapus 1 data berdasarkan posisinya di array */
+        function hapusBalita(index) {
+            dataBalita.splice(index, 1);
+            tampilkan();
+        }
+
+        /* jalankan pertama kali saat halaman dibuka */
+        tampilkan();
+    </script>
+</body>
+</html>
